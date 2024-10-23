@@ -1,31 +1,35 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { createPositionDto } from './dtos/createPosition.dto';
 import { updatePositionDto } from './dtos/updatePosition.dto';
+import { PositionsService } from './positions.service';
 
 @Controller('positions')
 export class PositionsController {
+
+    constructor(private readonly positionsService: PositionsService) {}
+
     @Get()
     getAllPositions() {
-        return [{'id': '1', 'name': 'CEO', 'description': 'CEO of the company', 'parent_id': null}, {'id': '2', 'name': 'CTO', 'description': 'CTO of the company', 'parent_id': null}];
+        return this.positionsService.getAllPositions();
     }
 
     @Get(':id')
     getPositionById(@Param('id') id: string) {
-        return [{'id': id, 'name': 'CEO', 'description': 'CEO of the company', 'parent_id': null}];
+        return this.positionsService.getPositionById(parseInt(id));
     }
 
     @Post()
     createPosition(@Body() body: createPositionDto) {
-        return `Hello World ${body}`;
+        return this.positionsService.createPosition(body);
     }
 
     @Put(':id')
     updatePosition(@Param('id') id: string, @Body() body: updatePositionDto) {
-        return `Hello World ${id} ${body}`;
+        return this.positionsService.updatePosition(parseInt(id), body);
     }
 
     @Delete(':id')
     deletePosition(@Param('id') id: string) {
-        return `Hello World ${id}`;
+        return this.positionsService.deletePosition(parseInt(id));
     }
 }

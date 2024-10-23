@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { PositionsModule } from './positions/positions.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { PositionEntity } from './entities/positions.entity';
 
 @Module({
   imports: [
@@ -13,7 +14,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     username: 'postgres',
     password: 'root',
     database: 'orga_structure',
-    entities: [],
+    entities: [PositionEntity],
     synchronize: true,
   }), PositionsModule],
   controllers: [AppController],
