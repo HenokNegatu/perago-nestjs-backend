@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UsePipes, ValidationPipe } from '@nestjs/common';
 import { createPositionDto } from './dtos/createPosition.dto';
 import { updatePositionDto } from './dtos/updatePosition.dto';
 import { PositionsService } from './positions.service';
@@ -19,11 +19,13 @@ export class PositionsController {
     }
 
     @Post()
+    @UsePipes(new ValidationPipe())
     createPosition(@Body() body: createPositionDto) {
         return this.positionsService.createPosition(body);
     }
 
     @Put(':id')
+    @UsePipes(new ValidationPipe())
     updatePosition(@Param('id') id: string, @Body() body: updatePositionDto) {
         return this.positionsService.updatePosition(parseInt(id), body);
     }
