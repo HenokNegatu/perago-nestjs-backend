@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseBoolPipe, Post, Put, Query, UsePipes, ValidationPipe } from '@nestjs/common';
 import { createPositionDto } from './dtos/createPosition.dto';
 import { updatePositionDto } from './dtos/updatePosition.dto';
 import { PositionsService } from './positions.service';
@@ -31,7 +31,7 @@ export class PositionsController {
     }
 
     @Delete(':id')
-    deletePosition(@Param('id') id: string) {
-        return this.positionsService.deletePosition(parseInt(id));
+    deletePosition(@Param('id') id: string, @Query('deleteChildren', ParseBoolPipe) deleteChildren: boolean) {
+        return this.positionsService.deletePosition(parseInt(id), deleteChildren);
     }
 }
