@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PositionEntity } from '../entities/positions.entity';
@@ -41,10 +41,18 @@ export class PositionsService {
     }
 
     updatePosition(id: number, position: Position) {
+        if (id === 1) {
+            throw new BadRequestException("Cannot update CEO position");
+        }
         return this.positionRepository.update(id, position);
     }
 
     async deletePosition(id: number, deleteChildren: boolean): Promise<void> {
+
+        if (id === 1) {
+            throw new BadRequestException("Cannot delete CEO position");
+        }
+
         const position = await this.positionRepository.findOne({
             where: { id },
             relations: ['parent', 'children']
@@ -53,6 +61,8 @@ export class PositionsService {
         if (!position) {
             throw new NotFoundException(`Position with ID ${id} not found`);
         }
+
+        
 
         if (deleteChildren) {
             // Recursively delete all children first
