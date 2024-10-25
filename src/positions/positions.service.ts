@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { PositionEntity } from '../entities/positions.entity';
-import { Position } from 'src/utils/types';
+import { Position, PositionWithChildren } from 'src/utils/types';
 
 @Injectable()
 export class PositionsService {
@@ -28,8 +28,38 @@ export class PositionsService {
     }
 
 
-    getAllPositions() {
-        return this.positionRepository.find();
+    async getAllPositions(): Promise<PositionWithChildren> {
+        const rootPosition = await this.positionRepository.findOne({
+            where: { id: 1 },
+            relations: ['children'],
+        });
+
+        if (!rootPosition) {
+            throw new NotFoundException('Root position not found');
+        }
+
+        return this.buildPositionTree(rootPosition);
+    }
+
+    private async buildPositionTree(position: PositionEntity): Promise<PositionWithChildren> {
+        const children = await this.positionRepository.find({
+            where: { parent: { id: position.id } },
+            relations: ['children'],
+        });
+
+        const positionWithChildren: PositionWithChildren = {
+            id: position.id,
+            name: position.name,
+            description: position.description,
+            parent_id: position.parent?.id,
+            children: [],
+        };
+
+        for (const child of children) {
+            positionWithChildren.children.push(await this.buildPositionTree(child));
+        }
+
+        return positionWithChildren;
     }
 
     getPositionById(id: number) {
