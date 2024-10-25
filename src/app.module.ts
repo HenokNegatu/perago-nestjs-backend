@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { PositionsModule } from './positions/positions.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PositionEntity } from './entities/positions.entity';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -16,7 +17,7 @@ import { PositionEntity } from './entities/positions.entity';
     database: 'orga_structure',
     entities: [PositionEntity],
     synchronize: true,
-  }), PositionsModule],
+  }), PositionsModule, AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })
