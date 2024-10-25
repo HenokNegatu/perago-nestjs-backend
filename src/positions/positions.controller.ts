@@ -34,4 +34,9 @@ export class PositionsController {
     deletePosition(@Param('id') id: string, @Query('deleteChildren', ParseBoolPipe) deleteChildren: boolean) {
         return this.positionsService.deletePosition(parseInt(id), deleteChildren);
     }
+
+    @Get('hierarchy/:id')
+    getPositionHierarchy(@Param('id') id: string) {
+        return this.positionsService.getPositionHierarchy(parseInt(id));
+    }
 }

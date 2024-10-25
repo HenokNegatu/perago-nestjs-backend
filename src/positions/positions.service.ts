@@ -123,4 +123,11 @@ export class PositionsService {
         // Delete the position
         await this.positionRepository.remove(position);
     }
+
+    getPositionHierarchy(id: number) {
+        return this.positionRepository.findOne({
+            where: { id },
+            relations: ['children'],
+        });
+    }
 }
