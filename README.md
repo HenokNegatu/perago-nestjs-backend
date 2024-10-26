@@ -9,6 +9,8 @@
 
 perago internship project
 
+![screensot](./White.png)
+
 ## Project setup
 
 ```bash
