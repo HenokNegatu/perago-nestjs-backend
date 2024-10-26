@@ -9,7 +9,7 @@
 
 perago internship project
 
-![screensot](./White.png)
+![Project Preview image](https://www.canva.com/design/DAGUp32_SDg/wkTYGFHCxqdx7Xar0OW7_w/view?utm_content=DAGUp32_SDg&utm_campaign=designshare&utm_medium=link&utm_source=editor)
 
 ## Project setup
 
