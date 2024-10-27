@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, UpdateResult } from 'typeorm';
 import { PositionEntity } from '../entities/positions.entity';
 import { Position, PositionWithChildren } from 'src/utils/types';
 
@@ -62,19 +62,19 @@ export class PositionsService {
         return positionWithChildren;
     }
 
-    getPositionById(id: number) {
-        return this.positionRepository.findOne({ where: { id } });
+    async getPositionById(id: number): Promise<Position>{
+        return await this.positionRepository.findOne({ where: { id } });
     }
 
-    createPosition(position: Position) {
-        return this.positionRepository.save(position);
+    async createPosition(position: Position): Promise<Position>{
+        return await this.positionRepository.save(position);
     }
 
-    updatePosition(id: number, position: Position) {
+    async updatePosition(id: number, position: Position): Promise<UpdateResult>{
         if (id === 1) {
             throw new BadRequestException("Cannot update CEO position");
         }
-        return this.positionRepository.update(id, position);
+        return await this.positionRepository.update(id, position);
     }
 
     async deletePosition(id: number, deleteChildren: boolean): Promise<void> {
@@ -124,8 +124,8 @@ export class PositionsService {
         await this.positionRepository.remove(position);
     }
 
-    getPositionHierarchy(id: number) {
-        return this.positionRepository.findOne({
+   async getPositionHierarchy(id: number): Promise<PositionWithChildren>{
+        return await this.positionRepository.findOne({
             where: { id },
             relations: ['children'],
         });
