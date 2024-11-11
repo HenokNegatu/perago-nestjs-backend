@@ -18,6 +18,9 @@ export class PositionEntity {
     @JoinColumn({ name: 'parent_id' })
     parent: PositionEntity | null;
 
-    @OneToMany(() => PositionEntity, position => position.parent)
+    @OneToMany(() => PositionEntity, position => position.parent, {
+        onDelete: 'CASCADE',
+        cascade: true
+    })
     children: PositionEntity[];
 }

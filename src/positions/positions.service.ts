@@ -2,7 +2,9 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, UpdateResult } from 'typeorm';
 import { PositionEntity } from '../entities/positions.entity';
-import { Position, PositionWithChildren } from 'src/utils/types';
+import { PositionWithChildren } from 'src/utils/types';
+import { updatePositionDto } from './dtos/updatePosition.dto';
+import { createPositionDto } from './dtos/createPosition.dto';
 
 @Injectable()
 export class PositionsService {
@@ -19,9 +21,11 @@ export class PositionsService {
         const count = await this.positionRepository.count();
         if (count === 0) {
             await this.positionRepository.save([
-                { name: "CEO", description: "Chief Executive Officer" },
-                { name: "CTO", description: "Chief Technology Officer", parent: { id: 1 } },
-                { name: "SEO", description: "Search Engine Optimizer", parent: { id: 1 } }
+                { name: "CEO", description: "Chief Executive Officer" , children: [
+                    { name: "CTO", description: "Chief Technology Officer" },
+                    { name: "SEO", description: "Search Engine Optimizer" }
+                ]},
+                
             ]);
             console.log('Seed data inserted');
         }
@@ -29,9 +33,15 @@ export class PositionsService {
 
 
     async getAllPositions(): Promise<PositionWithChildren> {
+       
         const rootPosition = await this.positionRepository.findOne({
             where: { id: 1 },
             relations: ['children'],
+            select: {
+                id: true,
+                name: true,
+                parent_id: true
+            }
         });
 
         if (!rootPosition) {
@@ -43,7 +53,7 @@ export class PositionsService {
 
     private async buildPositionTree(position: PositionEntity): Promise<PositionWithChildren> {
         const children = await this.positionRepository.find({
-            where: { parent: { id: position.id } },
+            where: { parent_id: position.id },
             relations: ['children'],
         });
 
@@ -62,15 +72,21 @@ export class PositionsService {
         return positionWithChildren;
     }
 
-    async getPositionById(id: number): Promise<Position>{
-        return await this.positionRepository.findOne({ where: { id } });
+    async getPositionById(id: number): Promise<PositionEntity>{
+        const position = await this.positionRepository.findOne({ where: { id } });
+        if (position){
+            return position
+        }
+        throw new NotFoundException()
     }
 
-    async createPosition(position: Position): Promise<Position>{
-        return await this.positionRepository.save(position);
+    async createPosition(position: createPositionDto): Promise<PositionEntity>{
+        const v = this.positionRepository.create(position);
+        console.log(v)
+        return await this.positionRepository.save(v);
     }
 
-    async updatePosition(id: number, position: Position): Promise<UpdateResult>{
+    async updatePosition(id: number, position: updatePositionDto): Promise<UpdateResult>{
         if (id === 1) {
             throw new BadRequestException("Cannot update CEO position");
         }
@@ -85,7 +101,7 @@ export class PositionsService {
 
         const position = await this.positionRepository.findOne({
             where: { id },
-            relations: ['parent', 'children']
+            relations: [ 'children']
         });
 
         if (!position) {
@@ -95,13 +111,6 @@ export class PositionsService {
         
 
         if (deleteChildren) {
-            // Recursively delete all children first
-
-            for (const child of position.children) {
-                await this.deletePosition(child.id, true); // Recursively delete child and its descendants
-            }
-
-            // Finally, delete the parent position
             await this.positionRepository.remove(position);
         } else {
             // Move children to grandparent and delete the position
@@ -111,7 +120,7 @@ export class PositionsService {
 
 
     private async moveChildrenToGrandparentAndDelete(position: PositionEntity): Promise<void> {
-        const grandparentId = position.parent ? position.parent.id : null;
+        const grandparentId = position?.parent_id ;
     
         // Update children to point to the grandparent
         await this.positionRepository.createQueryBuilder()
