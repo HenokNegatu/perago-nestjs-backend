@@ -2,8 +2,8 @@ import { Column, PrimaryGeneratedColumn, Entity, ManyToOne, JoinColumn, OneToMan
 
 @Entity('positions')
 export class PositionEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
+    @PrimaryGeneratedColumn('uuid')
+    id: string;
 
     @Column()
     name: string;
@@ -12,7 +12,7 @@ export class PositionEntity {
     description: string;
 
     @Column({nullable: true})
-    parent_id: number;
+    parent_id: string;
 
     @ManyToOne(() => PositionEntity, position => position.children)
     @JoinColumn({ name: 'parent_id' })

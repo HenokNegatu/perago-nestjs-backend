@@ -1,7 +1,7 @@
 export interface PositionWithChildren {
-    id: number;
+    id: string;
     name: string;
     description: string;
-    parent_id?: number;
+    parent_id?: string;
     children?: PositionWithChildren[];
 }

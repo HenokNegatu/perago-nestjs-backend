@@ -7,5 +7,5 @@ export class updatePositionDto {
     description: string;
     @IsNotEmpty()
     @IsNumber()
-    parent_id: number;
+    parent_id: string;
 }

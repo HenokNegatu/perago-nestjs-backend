@@ -30,7 +30,7 @@ describe('PositionsController', () => {
 
   it('it should get All Positions', () => {
     //arrange 
-    const position = { id: 2, name: 'test', description:"description", parent_id: 1}
+    const position = { id: "2", name: 'test', description:"description", parent_id: "1"}
 
     jest.spyOn(mockPositionService, 'getAllPositions').mockReturnValue([position])
     //act
@@ -42,15 +42,15 @@ describe('PositionsController', () => {
 
   it('it should update position',async () => {
     //arrange
-    const position = { id: 2, name: 'test', description:"description", parent_id: 1} as updatePositionDto
+    const position = { id: "2", name: 'test', description:"description", parent_id: "1"} as updatePositionDto
 
     jest.spyOn(mockPositionService, 'updatePosition').mockReturnValue(position)
 
     //act
-    const result =  await controller.updatePosition(2, position)
+    const result =  await controller.updatePosition("2", position)
 
     //assert
-    expect(mockPositionService.updatePosition).toHaveBeenCalledWith(2, position)
+    expect(mockPositionService.updatePosition).toHaveBeenCalledWith("2", position)
     expect(result).toEqual(result);
   })
 });

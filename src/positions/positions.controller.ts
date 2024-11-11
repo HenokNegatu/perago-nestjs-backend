@@ -14,7 +14,7 @@ export class PositionsController {
     }
 
     @Get(':id')
-    getPositionById(@Param('id', ParseIntPipe) id: number) {
+    getPositionById(@Param('id') id: string) {
         return this.positionsService.getPositionById(id);
     }
 
@@ -26,17 +26,17 @@ export class PositionsController {
 
     @Put(':id')
     @UsePipes(new ValidationPipe())
-    updatePosition(@Param('id') id: number, @Body() body: updatePositionDto) {
+    updatePosition(@Param('id') id: string, @Body() body: updatePositionDto) {
         return this.positionsService.updatePosition(id, body);
     }
 
     @Delete(':id')
-    deletePosition(@Param('id') id: number, @Query('deleteChildren', ParseBoolPipe) deleteChildren: boolean) {
+    deletePosition(@Param('id') id: string, @Query('deleteChildren', ParseBoolPipe) deleteChildren: boolean) {
         return this.positionsService.deletePosition(id, deleteChildren);
     }
 
     @Get('hierarchy/:id')
-    getPositionHierarchy(@Param('id') id: number) {
+    getPositionHierarchy(@Param('id') id: string) {
         return this.positionsService.getPositionHierarchy(id);
     }
 }

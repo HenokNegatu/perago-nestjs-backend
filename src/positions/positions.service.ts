@@ -35,7 +35,7 @@ export class PositionsService {
     async getAllPositions(): Promise<PositionWithChildren> {
        
         const rootPosition = await this.positionRepository.findOne({
-            where: { id: 1 },
+            where: { name: "CEO" },
             relations: ['children'],
             select: {
                 id: true,
@@ -72,7 +72,7 @@ export class PositionsService {
         return positionWithChildren;
     }
 
-    async getPositionById(id: number): Promise<PositionEntity>{
+    async getPositionById(id: string): Promise<PositionEntity>{
         const position = await this.positionRepository.findOne({ where: { id } });
         if (position){
             return position
@@ -81,28 +81,26 @@ export class PositionsService {
     }
 
     async createPosition(position: createPositionDto): Promise<PositionEntity>{
-        const v = this.positionRepository.create(position);
-        console.log(v)
-        return await this.positionRepository.save(v);
+        const newPosition = this.positionRepository.create(position);
+        return await this.positionRepository.save(newPosition);
     }
 
-    async updatePosition(id: number, position: updatePositionDto): Promise<UpdateResult>{
-        if (id === 1) {
+    async updatePosition(id: string, editPosition: updatePositionDto): Promise<UpdateResult>{
+       
+        const position = await this.positionRepository.findOne({ where: { id },relations: [ 'children'] });
+
+        if (position.name === "CEO") {
             throw new BadRequestException("Cannot update CEO position");
         }
-        return await this.positionRepository.update(id, position);
+        return await this.positionRepository.update(id, editPosition);
     }
 
-    async deletePosition(id: number, deleteChildren: boolean): Promise<void> {
+    async deletePosition(id: string, deleteChildren: boolean): Promise<void> {
+        const position = await this.positionRepository.findOne({ where: { id },relations: [ 'children'] });
 
-        if (id === 1) {
+        if (position.name === "CEO") {
             throw new BadRequestException("Cannot delete CEO position");
         }
-
-        const position = await this.positionRepository.findOne({
-            where: { id },
-            relations: [ 'children']
-        });
 
         if (!position) {
             throw new NotFoundException(`Position with ID ${id} not found`);
@@ -133,7 +131,7 @@ export class PositionsService {
         await this.positionRepository.remove(position);
     }
 
-   async getPositionHierarchy(id: number): Promise<PositionWithChildren>{
+   async getPositionHierarchy(id: string): Promise<PositionWithChildren>{
         return await this.positionRepository.findOne({
             where: { id },
             relations: ['children'],
