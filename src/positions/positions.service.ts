@@ -37,11 +37,6 @@ export class PositionsService {
         const rootPosition = await this.positionRepository.findOne({
             where: { name: "CEO" },
             relations: ['children'],
-            select: {
-                id: true,
-                name: true,
-                parent_id: true
-            }
         });
 
         if (!rootPosition) {
@@ -61,6 +56,8 @@ export class PositionsService {
             id: position.id,
             name: position.name,
             description: position.description,
+            createdAt: position.createdAt,
+            modifiedAt: position.modifiedAt,
             parent_id: position.parent?.id,
             children: [],
         };
