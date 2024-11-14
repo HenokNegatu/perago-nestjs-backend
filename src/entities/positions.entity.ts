@@ -20,7 +20,7 @@ export class PositionEntity {
     @UpdateDateColumn({ type: 'timestamp' })
     modifiedAt: Date;
 
-    @ManyToOne(() => PositionEntity, position => position.children)
+    @ManyToOne(() => PositionEntity, position => position.children, {onDelete: 'CASCADE'})
     @JoinColumn({ name: 'parent_id' })
     parent: PositionEntity | null;
 
