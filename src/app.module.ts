@@ -6,12 +6,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PositionEntity } from './entities/positions.entity';
 import { AuthModule } from './auth/auth.module';
 import { UsersEntity } from './entities/users.entity';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [
-    TypeOrmModule.forRoot({
+  imports: [ConfigModule.forRoot({
+    isGlobal: true,
+  }),
+  TypeOrmModule.forRoot({
     type: 'postgres',
-    host: 'localhost',
+    host: `${process.env.HOST}`,
     port: 5432,
     username: 'postgres',
     password: 'root',
@@ -21,8 +24,8 @@ import { UsersEntity } from './entities/users.entity';
   }), PositionsModule, AuthModule],
   controllers: [AppController],
   providers: [AppService],
-  exports:[PositionsModule]
+  exports: [PositionsModule]
 })
-export class AppModule {}
+export class AppModule { }
 export { PositionsModule };
 
