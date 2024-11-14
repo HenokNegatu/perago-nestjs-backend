@@ -22,8 +22,10 @@ export class PositionsService {
         if (count === 0) {
             await this.positionRepository.save([
                 { name: "CEO", description: "Chief Executive Officer" , children: [
-                    { name: "CTO", description: "Chief Technology Officer" },
-                    { name: "SEO", description: "Search Engine Optimizer" }
+                    { name: "CTO", description: "Chief Technology Officer", children: [
+                        { name: "R&D Manager", description: "A Research and Development (R&D) manager" }
+                    ] },
+                    { name: "SEO", description: "Description for SEO" }
                 ]},
                 
             ]);
@@ -49,6 +51,7 @@ export class PositionsService {
     private async buildPositionTree(position: PositionEntity): Promise<PositionWithChildren> {
         const children = await this.positionRepository.find({
             where: { parent_id: position.id },
+            select: ['id', 'name', 'description', 'createdAt', 'modifiedAt', 'parent_id'],
             relations: ['children'],
         });
 
@@ -58,7 +61,7 @@ export class PositionsService {
             description: position.description,
             createdAt: position.createdAt,
             modifiedAt: position.modifiedAt,
-            parent_id: position.parent?.id,
+            parent_id: position.parent_id,
             children: [],
         };
 

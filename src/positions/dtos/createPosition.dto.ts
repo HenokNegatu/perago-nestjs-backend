@@ -6,6 +6,5 @@ export class createPositionDto {
     @IsNotEmpty()
     description: string;
     @IsNotEmpty()
-    @IsNumber()
     parent_id: string
 }
