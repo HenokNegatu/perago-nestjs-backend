@@ -9,13 +9,23 @@ export class EmployeeService {
     constructor(
         @InjectRepository(EmployeeEntity)
         private readonly employeeRepository: Repository<EmployeeEntity>
-    ){}
+    ) { }
 
-    async addEmployee(body: AddEmployeeDto){
+    async addEmployee(body: AddEmployeeDto) {
         try {
             const newEmployee = this.employeeRepository.create(body)
             await this.employeeRepository.insert(newEmployee)
             return newEmployee
+        } catch (error) {
+            throw new BadRequestException()
+        }
+    }
+
+    async editEmployee(employeeId: string, body: AddEmployeeDto) {
+        try {
+            const editEmployee = this.employeeRepository.create(body)
+            await this.employeeRepository.update(employeeId, editEmployee)
+            return editEmployee
         } catch (error) {
             throw new BadRequestException()
         }
