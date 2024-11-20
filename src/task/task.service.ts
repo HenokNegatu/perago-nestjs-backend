@@ -23,4 +23,17 @@ export class TaskService {
             throw new BadRequestException()
         }
     }
+
+    async editTask(taskId: string, body: CreateTaskDto) {
+        try {
+            const editTask = this.taskRepository.create({
+                ...body,
+                employee: { id: body.employee }
+            });
+            await this.taskRepository.update(taskId, editTask)
+            return editTask
+        } catch (error) {
+            throw new BadRequestException()
+        }
+    }
 }
