@@ -7,6 +7,7 @@ import { PositionEntity } from './entities/positions.entity';
 import { AuthModule } from './auth/auth.module';
 import { UsersEntity } from './entities/users.entity';
 import { ConfigModule } from '@nestjs/config';
+import { EmployeeEntity } from './entities/employee.entity';
 
 @Module({
   imports: [ConfigModule.forRoot({
@@ -19,7 +20,7 @@ import { ConfigModule } from '@nestjs/config';
     username: 'postgres',
     password: 'root',
     database: 'orga_structure',
-    entities: [PositionEntity, UsersEntity],
+    entities: [PositionEntity, UsersEntity, EmployeeEntity],
     synchronize: true,
   }), PositionsModule, AuthModule],
   controllers: [AppController],

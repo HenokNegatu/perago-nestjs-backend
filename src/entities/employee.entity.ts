@@ -10,7 +10,7 @@ import {
 import { PositionEntity } from './positions.entity';
   
   @Entity('employees') // Specify table name
-  export class Employee {
+  export class EmployeeEntity {
     @PrimaryGeneratedColumn('uuid')
     id: string;
   
