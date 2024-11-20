@@ -8,6 +8,25 @@ import {
     DeleteDateColumn,
   } from 'typeorm';
 import { PositionEntity } from './positions.entity';
+
+
+export enum StatusType {
+    Active = "Active",
+    Inactive  = "Inactive",
+    OnLeave = "On Leave"
+}
+
+export enum GenderType {
+    Male = "Male",
+    Female = "Female"
+}
+
+export enum MaritalStatusType  {
+    Single = "Single",
+    Married =  "Married",
+    Divorced =  "Divorced",
+    Widowed =  "Widowed"
+}
   
   @Entity('employees') // Specify table name
   export class EmployeeEntity {
@@ -37,27 +56,27 @@ import { PositionEntity } from './positions.entity';
   
     @Column({
       type: 'enum',
-      enum: ['Active', 'Inactive', 'On Leave'],
+      enum: StatusType,
       default: 'Active',
     })
-    status: 'Active' | 'Inactive' | 'On Leave';
+    status: StatusType;
   
     @Column({ type: 'text', nullable: true })
     address: string;
   
     @Column({
       type: 'enum',
-      enum: ['Male', 'Female'],
+      enum: GenderType,
       nullable: true,
     })
-    gender: 'Male' | 'Female';
+    gender: GenderType;
   
     @Column({
       type: 'enum',
-      enum: ['Single', 'Married', 'Divorced', 'Widowed'],
+      enum: MaritalStatusType,
       nullable: true,
     })
-    maritalStatus: 'Single' | 'Married' | 'Divorced' | 'Widowed';
+    maritalStatus: MaritalStatusType;
   
     @Column({ length: 100, nullable: true })
     emergencyContactName: string;
