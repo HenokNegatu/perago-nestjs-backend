@@ -14,10 +14,10 @@ export class PositionEntity {
     @Column({nullable: true})
     parent_id: string;
 
-    @CreateDateColumn({ type: 'timestamp' })
+    @CreateDateColumn({ type: 'timestamptz' })
     createdAt: Date;
 
-    @UpdateDateColumn({ type: 'timestamp' })
+    @UpdateDateColumn({ type: 'timestamptz' })
     modifiedAt: Date;
 
     @ManyToOne(() => PositionEntity, position => position.children, {onDelete: 'CASCADE'})
