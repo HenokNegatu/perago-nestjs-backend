@@ -1,4 +1,5 @@
 import { Column, PrimaryGeneratedColumn, Entity, ManyToOne, JoinColumn, OneToMany, CreateDateColumn, UpdateDateColumn } from "typeorm";
+import { Employee } from "./employee.entity";
 
 @Entity('positions')
 export class PositionEntity {
@@ -29,4 +30,7 @@ export class PositionEntity {
         cascade: true
     })
     children: PositionEntity[];
+
+    @OneToMany(() => Employee, employee => employee.position)
+    employee: Employee;
 }
