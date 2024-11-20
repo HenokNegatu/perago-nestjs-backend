@@ -9,6 +9,7 @@ import { UsersEntity } from './entities/users.entity';
 import { ConfigModule } from '@nestjs/config';
 import { EmployeeEntity } from './entities/employee.entity';
 import { EmployeeModule } from './employee/employee.module';
+import { TaskEntity } from './entities/task.entity';
 
 @Module({
   imports: [ConfigModule.forRoot({
@@ -21,7 +22,7 @@ import { EmployeeModule } from './employee/employee.module';
     username: 'postgres',
     password: 'root',
     database: 'orga_structure',
-    entities: [PositionEntity, UsersEntity, EmployeeEntity],
+    entities: [PositionEntity, UsersEntity, EmployeeEntity, TaskEntity],
     synchronize: true,
   }), PositionsModule, AuthModule, EmployeeModule],
   controllers: [AppController],
