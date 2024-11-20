@@ -39,13 +39,13 @@ import {
     @Column({ type: 'boolean', default: false })
     isPriority: boolean;
   
-    @ManyToOne(() => EmployeeEntity, (employee) => employee.task)
+    @ManyToOne(() => EmployeeEntity, (employee) => employee.task, {nullable: true, onDelete: 'SET NULL'})
     employee: EmployeeEntity;
   
-    @CreateDateColumn()
+    @CreateDateColumn({type: 'timestamptz'})
     createdAt: Date;
   
-    @UpdateDateColumn()
+    @UpdateDateColumn({type: 'timestamptz'})
     updatedAt: Date;
   }
   

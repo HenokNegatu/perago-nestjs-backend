@@ -10,6 +10,7 @@ import { ConfigModule } from '@nestjs/config';
 import { EmployeeEntity } from './entities/employee.entity';
 import { EmployeeModule } from './employee/employee.module';
 import { TaskEntity } from './entities/task.entity';
+import { TaskModule } from './task/task.module';
 
 @Module({
   imports: [ConfigModule.forRoot({
@@ -24,7 +25,7 @@ import { TaskEntity } from './entities/task.entity';
     database: 'orga_structure',
     entities: [PositionEntity, UsersEntity, EmployeeEntity, TaskEntity],
     synchronize: true,
-  }), PositionsModule, AuthModule, EmployeeModule],
+  }), PositionsModule, AuthModule, EmployeeModule, TaskModule],
   controllers: [AppController],
   providers: [AppService],
   exports: [PositionsModule]
