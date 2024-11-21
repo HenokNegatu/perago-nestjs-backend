@@ -1,7 +1,7 @@
-import { IsOptional, IsString, IsUUID, IsDateString, MaxLength, IsEnum, IsBoolean } from 'class-validator';
+import { IsOptional, IsString, IsDateString, MaxLength, IsEnum, IsBoolean } from 'class-validator';
 import { TaskStatusType } from '../../entities/task.entity';
 
-export class CreateTaskDto {
+export class EditTaskDto {
   @IsString()
   @MaxLength(255)
   title: string;
@@ -20,7 +20,4 @@ export class CreateTaskDto {
   @IsEnum(TaskStatusType)
   status: TaskStatusType;
 
-  @IsUUID()
-  @IsOptional()
-  employee?: string; 
 }

@@ -6,7 +6,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   DeleteDateColumn,
-  OneToMany,
+  ManyToMany,
 } from 'typeorm';
 import { PositionEntity } from './positions.entity';
 import { TaskEntity } from './task.entity';
@@ -95,10 +95,7 @@ export class EmployeeEntity {
   @ManyToOne(() => PositionEntity, (position) => position.employee)
   position: PositionEntity;
 
-  @OneToMany(() => TaskEntity, task => task.employee, {
-    onDelete: 'CASCADE',
-    cascade: true
-  })
+  @ManyToMany(() => TaskEntity, (task) => task.employee)
   task: TaskEntity[];
 
   @CreateDateColumn({ type: 'timestamptz' })

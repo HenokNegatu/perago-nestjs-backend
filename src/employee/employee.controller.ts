@@ -5,7 +5,7 @@ import { EmployeeService } from './employee.service';
 @Controller('employee')
 export class EmployeeController {
 
-    constructor(private employeeService: EmployeeService) { }
+    constructor(private employeeService: EmployeeService, ) { }
 
     @Post()
     async addEmployee(@Body(new ValidationPipe()) body: AddEmployeeDto) {

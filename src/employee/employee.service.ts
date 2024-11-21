@@ -8,7 +8,7 @@ import { AddEmployeeDto } from './dtos/addEmployee.dto';
 export class EmployeeService {
     constructor(
         @InjectRepository(EmployeeEntity)
-        private readonly employeeRepository: Repository<EmployeeEntity>
+        private readonly employeeRepository: Repository<EmployeeEntity>,
     ) { }
 
     async addEmployee(body: AddEmployeeDto) {

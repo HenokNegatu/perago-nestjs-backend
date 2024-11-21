@@ -2,9 +2,10 @@ import {
     Entity,
     PrimaryGeneratedColumn,
     Column,
-    ManyToOne,
     CreateDateColumn,
     UpdateDateColumn,
+    JoinTable,
+    ManyToMany,
   } from 'typeorm';
   import { EmployeeEntity } from './employee.entity';
 
@@ -39,7 +40,8 @@ import {
     @Column({ type: 'boolean', default: false })
     isPriority: boolean;
   
-    @ManyToOne(() => EmployeeEntity, (employee) => employee.task, {nullable: true, onDelete: 'SET NULL'})
+    @ManyToMany(() => EmployeeEntity, (employee) => employee.task)
+    @JoinTable()
     employee: EmployeeEntity;
   
     @CreateDateColumn({type: 'timestamptz'})

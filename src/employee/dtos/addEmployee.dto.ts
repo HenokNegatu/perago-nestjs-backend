@@ -18,7 +18,6 @@ export class AddEmployeeDto {
   @MaxLength(150)
   email: string;
 
-  @IsOptional()
   @IsPhoneNumber(null)
   phoneNumber?: string;
 
@@ -66,7 +65,6 @@ export class AddEmployeeDto {
   @MaxLength(50)
   nationalId?: string;
 
-  @IsOptional()
   @IsUUID()
-  position?: PositionEntity;
+  position: PositionEntity;
 }
