@@ -49,4 +49,12 @@ export class TaskService {
             throw new BadRequestException()
         }
     }
+
+    async deleteTask(taskId: string) {
+        const task = await this.taskRepository.findOne({ where: { id: taskId } });
+        if (!task) {
+            throw new NotFoundException('Task not found');
+        }
+        await this.taskRepository.delete(taskId);
+    }
 }

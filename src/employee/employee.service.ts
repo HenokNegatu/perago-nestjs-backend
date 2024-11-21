@@ -30,4 +30,16 @@ export class EmployeeService {
             throw new BadRequestException()
         }
     }
+
+    async deleteEmployee(employeeId: string) {
+        try {
+            const result = await this.employeeRepository.softDelete(employeeId);
+            if (result.affected === 0) {
+                throw new BadRequestException('Employee not found');
+            }
+            return { message: 'Employee deleted' };
+        } catch (error) {
+            throw new BadRequestException();
+        }
+    }
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Param, ParseUUIDPipe, Post, Put, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Param, ParseUUIDPipe, Post, Put, ValidationPipe } from '@nestjs/common';
 import { AddEmployeeDto } from './dtos/addEmployee.dto';
 import { EmployeeService } from './employee.service';
 
@@ -16,4 +16,11 @@ export class EmployeeController {
     async editEmployee(@Param('employeeId', new ParseUUIDPipe()) employeeId: string, @Body(new ValidationPipe()) body: AddEmployeeDto) {
         return await this.employeeService.editEmployee(employeeId, body)
     }
+
+    @Delete(':employeeId')
+    async deleteEmployee(@Param('employeeId', new ParseUUIDPipe()) employeeId: string) {
+        return await this.employeeService.deleteEmployee(employeeId);
+    }
+
+    
 }

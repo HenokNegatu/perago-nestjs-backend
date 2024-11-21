@@ -1,4 +1,4 @@
-import { Body, Controller, Param, ParseUUIDPipe, Post, Put } from '@nestjs/common';
+import { Body, Controller, Param, ParseUUIDPipe, Post, Put, Delete } from '@nestjs/common';
 import { CreateTaskDto } from './dtos/createTask.dto';
 import { TaskService } from './task.service';
 
@@ -22,8 +22,8 @@ export class TaskController {
         return await this.taskService.editTask(taskId, body)
     }
 
-
-
-
-
+    @Delete(':taskId')
+    async deleteTask(@Param('taskId', new ParseUUIDPipe()) taskId: string) {
+        return await this.taskService.deleteTask(taskId);
+    }
 }
