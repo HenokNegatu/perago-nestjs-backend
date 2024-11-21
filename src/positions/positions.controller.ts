@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseBoolPipe, ParseIntPipe, Post, Put, Query, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseBoolPipe, ParseIntPipe, ParseUUIDPipe, Post, Put, Query, UsePipes, ValidationPipe } from '@nestjs/common';
 import { createPositionDto } from './dtos/createPosition.dto';
 import { updatePositionDto } from './dtos/updatePosition.dto';
 import { PositionsService } from './positions.service';
@@ -38,5 +38,10 @@ export class PositionsController {
     @Get('hierarchy/:id')
     getPositionHierarchy(@Param('id') id: string) {
         return this.positionsService.getPositionHierarchy(id);
+    }
+
+    @Get(':positionId/employee')
+    async getEmployeeUnderPosition(@Param('positionId', new ParseUUIDPipe()) positionId: string){
+        return await this.positionsService.getEmployeeUnderPosition(positionId)
     }
 }

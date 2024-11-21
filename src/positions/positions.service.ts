@@ -137,4 +137,11 @@ export class PositionsService {
             relations: ['children'],
         });
     }
+
+    async getEmployeeUnderPosition(positionId: string){
+        return await this.positionRepository.find({
+            where: {id: positionId},
+            relations: ['employee']
+        })
+    }
 }
