@@ -21,6 +21,13 @@ export class EmployeeService {
         }
     }
 
+    async getEmployeeWithTask(employeeId: string){
+        return await this.employeeRepository.find({
+            where:{id: employeeId},
+            relations:['task']
+        })
+    }
+
     async editEmployee(employeeId: string, body: AddEmployeeDto) {
         try {
             const editEmployee = this.employeeRepository.create(body)

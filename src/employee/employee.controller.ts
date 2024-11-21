@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Param, ParseUUIDPipe, Post, Put, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Post, Put, ValidationPipe } from '@nestjs/common';
 import { AddEmployeeDto } from './dtos/addEmployee.dto';
 import { EmployeeService } from './employee.service';
 
@@ -6,6 +6,11 @@ import { EmployeeService } from './employee.service';
 export class EmployeeController {
 
     constructor(private employeeService: EmployeeService, ) { }
+
+    @Get(':employeeId')
+    async getEmployeeWithTask(@Param('employeeId', new ParseUUIDPipe()) employeeId: string){
+        return await this.employeeService.getEmployeeWithTask(employeeId)
+    }
 
     @Post()
     async addEmployee(@Body(new ValidationPipe()) body: AddEmployeeDto) {
