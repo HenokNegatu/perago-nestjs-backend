@@ -39,6 +39,11 @@ export class TaskService {
           .add(employee);
       }
       
+    async getTaskWithEmployee(){
+        return await this.taskRepository.find({
+            relations: ['employee'],
+          });
+    }
 
     async editTask(taskId: string, body: EditTaskDto) {
         try {
