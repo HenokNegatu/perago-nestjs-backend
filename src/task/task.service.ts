@@ -21,6 +21,12 @@ export class TaskService {
         return newTask
     }
 
+    async getTaskById(taskId: string){
+      return await this.taskRepository.findOne({
+        where: {id: taskId}
+      })
+    }
+
     async addEmployeeToTask(taskId: string, employeeId: string){
         const task = await this.taskRepository.findOne({ where: { id: taskId } });
         const employee = await this.employeeRepository.findOne({ where: { id: employeeId } });
@@ -38,6 +44,25 @@ export class TaskService {
           .of(task)
           .add(employee);
       }
+
+      async removeEmployeeFromTask(taskId: string, employeeId: string) {
+        const task = await this.taskRepository.findOne({ where: { id: taskId } });
+        const employee = await this.employeeRepository.findOne({ where: { id: employeeId } });
+      
+        if (!task) {
+          throw new Error('Task not found');
+        }
+        if (!employee) {
+          throw new Error('Employee not found');
+        }
+      
+        await this.taskRepository
+          .createQueryBuilder()
+          .relation(TaskEntity, 'employee') 
+          .of(task)                
+          .remove(employee);
+      }
+      
       
     async getTaskWithEmployee(){
         return await this.taskRepository.find({

@@ -12,6 +12,11 @@ export class TaskController {
         return await this.taskService.getTaskWithEmployee()
     }
 
+    @Get(':taskId')
+    async getTaskById(@Param('taskId', new ParseUUIDPipe()) taskId: string){
+        return await this.taskService.getTaskById(taskId)
+    }
+
 
     @Post()
     async createTask(@Body() body: CreateTaskDto){
@@ -21,6 +26,11 @@ export class TaskController {
     @Post(":taskId/assign")
     async addEmployeeToTask(@Param('taskId', new ParseUUIDPipe()) taskId: string, @Body('employeeId') employeeId: string) {
         return await this.taskService.addEmployeeToTask(taskId, employeeId)
+    }
+
+    @Post(":taskId/remove")
+    async removeEmployeeFromTask(@Param('taskId', new ParseUUIDPipe()) taskId: string, @Body('employeeId') employeeId: string) {
+        return await this.taskService.removeEmployeeFromTask(taskId, employeeId)
     }
 
     @Put(':taskId')

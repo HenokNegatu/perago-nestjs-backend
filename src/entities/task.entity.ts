@@ -10,7 +10,7 @@ import {
   import { EmployeeEntity } from './employee.entity';
 
   export enum TaskStatusType {
-    Pending = 'Pending',
+    Todo = 'Todo',
     InProgress = 'In Progress', 
     Completed = 'Completed', 
     Cancelled = 'Cancelled'
@@ -30,11 +30,11 @@ import {
     @Column({
       type: 'enum',
       enum: TaskStatusType,
-      default: 'Pending',
+      default: 'Todo',
     })
     status: TaskStatusType;
   
-    @Column({ type: 'date', nullable: true })
+    @Column({ type: 'timestamptz', nullable: true })
     dueDate: Date;
   
     @Column({ type: 'boolean', default: false })
