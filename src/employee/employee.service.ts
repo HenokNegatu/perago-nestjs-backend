@@ -21,11 +21,13 @@ export class EmployeeService {
         }
     }
 
-    async getEmployeeWithTask(employeeId: string){
-        return await this.employeeRepository.find({
-            where:{id: employeeId},
-            relations:['task']
-        })
+    async getEmployeeWithTask() {
+        return await this.employeeRepository
+            .createQueryBuilder('employee')
+            .leftJoinAndSelect('employee.task', 'task') 
+            .leftJoin('employee.position', 'position') 
+            .addSelect('position.name') 
+            .getMany();
     }
 
     async editEmployee(employeeId: string, body: AddEmployeeDto) {

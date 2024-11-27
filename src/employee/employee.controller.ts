@@ -7,9 +7,9 @@ export class EmployeeController {
 
     constructor(private employeeService: EmployeeService, ) { }
 
-    @Get(':employeeId')
-    async getEmployeeWithTask(@Param('employeeId', new ParseUUIDPipe()) employeeId: string){
-        return await this.employeeService.getEmployeeWithTask(employeeId)
+    @Get('')
+    async getEmployeeWithTask(){
+        return await this.employeeService.getEmployeeWithTask()
     }
 
     @Post()

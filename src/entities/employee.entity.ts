@@ -44,7 +44,7 @@ export class EmployeeEntity {
   @Column({ length: 150, unique: true })
   email: string;
 
-  @Column({ length: 15, nullable: true })
+  @Column({ length: 15 })
   phoneNumber: string;
 
   @Column({ type: 'date', nullable: true })
@@ -69,7 +69,6 @@ export class EmployeeEntity {
   @Column({
     type: 'enum',
     enum: GenderType,
-    nullable: true,
   })
   gender: GenderType;
 
