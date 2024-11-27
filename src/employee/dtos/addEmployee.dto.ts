@@ -1,5 +1,5 @@
 import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, IsDate, IsNumber, Min, MaxLength, IsUUID, IsPhoneNumber, IsDateString } from 'class-validator';
-import { GenderType, MaritalStatusType, StatusType } from 'src/entities/employee.entity';
+import { GenderType, MaritalStatusType, Role, StatusType } from 'src/entities/employee.entity';
 import { PositionEntity } from 'src/entities/positions.entity';
 
 export class AddEmployeeDto {
@@ -67,4 +67,7 @@ export class AddEmployeeDto {
 
   @IsUUID()
   position: PositionEntity;
+
+  @IsEnum(Role)
+  role:Role
 }

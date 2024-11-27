@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EmployeeEntity } from 'src/entities/employee.entity';
 import { Repository } from 'typeorm';
@@ -12,6 +12,16 @@ export class EmployeeService {
     ) { }
 
     async addEmployee(body: AddEmployeeDto) {
+        const existingEmployee = await this.employeeRepository.findOne({
+            where: [
+              { email: body.email }, 
+              { nationalId: body.nationalId }, 
+            ],
+          });
+      
+          if (existingEmployee) {
+            throw new ConflictException('An employee with this email or national ID already exists.');
+          }
         try {
             const newEmployee = this.employeeRepository.create(body)
             await this.employeeRepository.insert(newEmployee)

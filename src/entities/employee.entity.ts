@@ -30,6 +30,11 @@ export enum MaritalStatusType {
   Widowed = "Widowed"
 }
 
+export enum Role {
+  Admin = "admin",
+  NonAdmin = 'non-admin'
+}
+
 @Entity('employees') // Specify table name
 export class EmployeeEntity {
   @PrimaryGeneratedColumn('uuid')
@@ -96,6 +101,16 @@ export class EmployeeEntity {
 
   @ManyToMany(() => TaskEntity, (task) => task.employee)
   task: TaskEntity[];
+
+  @Column({
+    type: 'enum',
+    enum: Role,
+    default: Role.NonAdmin
+  })
+  role: Role
+
+  @Column({ nullable: true })
+  password: string
 
   @CreateDateColumn({ type: 'timestamptz' })
   createdAt: Date;
