@@ -131,10 +131,10 @@ export class PositionsService {
         await this.positionRepository.remove(position);
     }
 
-   async getPositionHierarchy(id: string): Promise<PositionWithChildren>{
+   async getPositionHierarchy(id: string){
         return await this.positionRepository.findOne({
             where: { id },
-            relations: ['children'],
+            relations: ['children', 'employee', 'employee.task'],
         });
     }
 
