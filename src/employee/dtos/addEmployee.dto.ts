@@ -1,4 +1,4 @@
-import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, IsDate, IsNumber, Min, MaxLength, IsUUID, IsPhoneNumber, IsDateString } from 'class-validator';
+import { IsEmail, IsEnum, IsNotEmpty, IsOptional, IsString, IsDate, IsNumber, Min, MaxLength, IsUUID, IsPhoneNumber, IsDateString, IsDecimal } from 'class-validator';
 import { GenderType, MaritalStatusType, Role, StatusType } from 'src/entities/employee.entity';
 import { PositionEntity } from 'src/entities/positions.entity';
 
@@ -18,7 +18,7 @@ export class AddEmployeeDto {
   @MaxLength(150)
   email: string;
 
-  @IsPhoneNumber(null)
+  @IsPhoneNumber()
   phoneNumber?: string;
 
   @IsOptional()
@@ -30,7 +30,6 @@ export class AddEmployeeDto {
   hireDate: Date;
 
   @IsOptional()
-  @IsNumber()
   @Min(0)
   salary?: number;
 
