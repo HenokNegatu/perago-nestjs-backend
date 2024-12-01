@@ -52,10 +52,10 @@ export class EmployeeEntity {
   @Column({ length: 15 })
   phoneNumber: string;
 
-  @Column({ type: 'date', nullable: true })
+  @Column({ type: 'timestamptz', nullable: true })
   dateOfBirth: Date;
 
-  @Column({ type: 'date' })
+  @Column({ type: 'timestamptz' })
   hireDate: Date;
 
   @Column({ type: 'decimal', precision: 10, scale: 2, nullable: true })
@@ -64,7 +64,7 @@ export class EmployeeEntity {
   @Column({
     type: 'enum',
     enum: StatusType,
-    default: 'Active',
+    default: 'Inactive',
   })
   status: StatusType;
 
@@ -109,7 +109,7 @@ export class EmployeeEntity {
   })
   role: Role
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, select: false })
   password: string
 
   @CreateDateColumn({ type: 'timestamptz' })
