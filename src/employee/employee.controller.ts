@@ -12,6 +12,11 @@ export class EmployeeController {
         return await this.employeeService.getEmployeeWithTask()
     }
 
+    @Get(':employeeId')
+    async getEmployeeWithTaskById(@Param('employeeId', new ParseUUIDPipe())employeeId: string){
+        return await this.employeeService.getEmployeeWithTaskById(employeeId)
+    }
+
     @Post()
     async addEmployee(@Body(new ValidationPipe()) body: AddEmployeeDto) {
         return await this.employeeService.addEmployee(body)

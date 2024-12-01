@@ -14,14 +14,14 @@ export class EmployeeService {
     async addEmployee(body: AddEmployeeDto) {
         const existingEmployee = await this.employeeRepository.findOne({
             where: [
-              { email: body.email }, 
-              { nationalId: body.nationalId }, 
+                { email: body.email },
+                { nationalId: body.nationalId },
             ],
-          });
-      
-          if (existingEmployee) {
+        });
+
+        if (existingEmployee) {
             throw new ConflictException('An employee with this email or national ID already exists.');
-          }
+        }
         try {
             const newEmployee = this.employeeRepository.create(body)
             await this.employeeRepository.insert(newEmployee)
@@ -38,6 +38,16 @@ export class EmployeeService {
             .leftJoin('employee.position', 'position') 
             .addSelect('position.name') 
             .getMany();
+    }
+
+    async getEmployeeWithTaskById(employeeId: string) {
+        return await this.employeeRepository
+            .createQueryBuilder('employee')
+            .leftJoinAndSelect('employee.task', 'task')
+            .leftJoin('employee.position', 'position')
+            .addSelect(['position.name', 'position.id'])
+            .where('employee.id = :employeeId', { employeeId })
+            .getOne();
     }
 
     async editEmployee(employeeId: string, body: AddEmployeeDto) {
