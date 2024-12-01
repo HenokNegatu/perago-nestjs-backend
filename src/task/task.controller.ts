@@ -1,6 +1,7 @@
 import { Body, Controller, Param, ParseUUIDPipe, Post, Put, Delete, Get } from '@nestjs/common';
 import { CreateTaskDto } from './dtos/createTask.dto';
 import { TaskService } from './task.service';
+import { EditByEmployeeDto } from './dtos/editByEmployee.dto';
 
 @Controller('task')
 export class TaskController {
@@ -36,6 +37,11 @@ export class TaskController {
     @Put(':taskId')
     async editTask(@Param('taskId', new ParseUUIDPipe()) taskId: string, @Body() body: CreateTaskDto) {
         return await this.taskService.editTask(taskId, body)
+    }
+
+    @Put(':taskId/employee')
+    async editTaskByEmployee(@Param('taskId', new ParseUUIDPipe()) taskId: string, @Body() body: EditByEmployeeDto) {
+        return await this.taskService.editTaskByEmployee(taskId, body)
     }
 
     @Delete(':taskId')
