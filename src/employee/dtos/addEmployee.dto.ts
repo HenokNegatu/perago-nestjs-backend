@@ -42,7 +42,7 @@ export class AddEmployeeDto {
   @MaxLength(255)
   address?: string;
 
-  @IsOptional()
+ 
   @IsEnum(GenderType)
   gender?: GenderType;
 

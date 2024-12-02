@@ -11,6 +11,7 @@ import { EmployeeEntity } from './entities/employee.entity';
 import { EmployeeModule } from './employee/employee.module';
 import { TaskEntity } from './entities/task.entity';
 import { TaskModule } from './task/task.module';
+import { MailerModule } from './mailer/mailer.module';
 
 @Module({
   imports: [ConfigModule.forRoot({
@@ -25,7 +26,7 @@ import { TaskModule } from './task/task.module';
     database: 'orga_structure',
     entities: [PositionEntity, UsersEntity, EmployeeEntity, TaskEntity],
     synchronize: true,
-  }), PositionsModule, AuthModule, EmployeeModule, TaskModule],
+  }), PositionsModule, AuthModule, EmployeeModule, TaskModule, MailerModule],
   controllers: [AppController],
   providers: [AppService],
   exports: [PositionsModule]

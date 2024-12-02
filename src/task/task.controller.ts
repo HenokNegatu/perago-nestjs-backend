@@ -1,9 +1,11 @@
-import { Body, Controller, Param, ParseUUIDPipe, Post, Put, Delete, Get } from '@nestjs/common';
+import { Body, Controller, Param, ParseUUIDPipe, Post, Put, Delete, Get, UseGuards } from '@nestjs/common';
 import { CreateTaskDto } from './dtos/createTask.dto';
 import { TaskService } from './task.service';
 import { EditByEmployeeDto } from './dtos/editByEmployee.dto';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth/jwt-auth.guard';
 
 @Controller('task')
+@UseGuards(JwtAuthGuard)
 export class TaskController {
 
     constructor(private readonly taskService: TaskService) { }

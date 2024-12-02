@@ -27,6 +27,7 @@ export class EmployeeService {
             await this.employeeRepository.insert(newEmployee)
             return newEmployee
         } catch (error) {
+            console.log(error)
             throw new BadRequestException()
         }
     }

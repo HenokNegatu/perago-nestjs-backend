@@ -7,3 +7,8 @@ export interface PositionWithChildren {
     parent_id?: string;
     children?: PositionWithChildren[];
 }
+
+
+export type AuthJwtPayload = {
+    sub: string;
+  };

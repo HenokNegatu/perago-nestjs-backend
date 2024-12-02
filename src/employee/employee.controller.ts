@@ -1,8 +1,10 @@
-import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Post, Put, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Post, Put, UseGuards, ValidationPipe } from '@nestjs/common';
 import { AddEmployeeDto } from './dtos/addEmployee.dto';
 import { EmployeeService } from './employee.service';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth/jwt-auth.guard';
 
 @Controller('employee')
+@UseGuards(JwtAuthGuard)
 export class EmployeeController {
 
     constructor(private employeeService: EmployeeService, ) { }

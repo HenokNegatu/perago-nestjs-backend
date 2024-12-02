@@ -1,9 +1,11 @@
-import { Body, Controller, Delete, Get, Param, ParseBoolPipe, ParseIntPipe, ParseUUIDPipe, Post, Put, Query, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseBoolPipe, ParseIntPipe, ParseUUIDPipe, Post, Put, Query, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { createPositionDto } from './dtos/createPosition.dto';
 import { updatePositionDto } from './dtos/updatePosition.dto';
 import { PositionsService } from './positions.service';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth/jwt-auth.guard';
 
 @Controller('positions')
+@UseGuards(JwtAuthGuard)
 export class PositionsController {
 
     constructor(private readonly positionsService: PositionsService) {}

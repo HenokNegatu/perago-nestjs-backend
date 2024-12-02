@@ -112,6 +112,12 @@ export class EmployeeEntity {
   @Column({ nullable: true, select: false })
   password: string
 
+  @Column({ length: 6, default: null })
+  otp: string
+
+  @Column({ type: 'timestamptz', default:null })
+  expiresAt: Date;
+
   @CreateDateColumn({ type: 'timestamptz' })
   createdAt: Date;
 
