@@ -44,6 +44,28 @@ export class AuthService {
         }, { ...theRest, password: hashedPassword, status: StatusType.Active })
     }
 
+    async forgotPassword(body: signUpDto) {
+        const findEmployee = await this.employeeRepository.findOne({
+            where: { email: body.email },
+            select: ["password", "id", "role", "otp"]
+        })
+
+        if (findEmployee.otp !== body.otp) {
+            throw new UnauthorizedException('Invalid otp!')
+        }
+
+        if (!findEmployee) {
+            throw new NotFoundException('Employee not registered!')
+        }
+
+        const { password, ...theRest } = body
+        const hashedPassword = await hash(password)
+
+        await this.employeeRepository.update({
+            email: body.email
+        }, { ...theRest, password: hashedPassword, status: StatusType.Active })
+    }
+
 
     async validateLocalUser({ email, password }: signInDto) {
         const employee = await this.employeeRepository.findOne({
@@ -92,7 +114,6 @@ export class AuthService {
         const user = await this.employeeRepository.findOne({
             where: { id: userId }
         });
-        console.log(user)
         if (!user) throw new UnauthorizedException('User not found!');
         const currentUser = { id: user.id, role: user.role };
         return currentUser;

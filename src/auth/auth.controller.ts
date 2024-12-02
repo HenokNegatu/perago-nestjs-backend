@@ -28,4 +28,9 @@ export class AuthController {
     async sendOtp(@Body() email: SendOtpDto){
         return await this.otpService.generateOtp(email)
     }
+
+    @Post('forgot-password')
+    async forgotPassword(@Body() body:signUpDto){
+        return await this.authService.forgotPassword(body)
+    }
 }
