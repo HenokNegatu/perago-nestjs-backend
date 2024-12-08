@@ -6,7 +6,7 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth/jwt-auth.guard';
 
 @Controller('positions')
 @UseGuards(JwtAuthGuard)
-export class PositionsController {
+export class PositionsController{
 
     constructor(private readonly positionsService: PositionsService) {}
 
